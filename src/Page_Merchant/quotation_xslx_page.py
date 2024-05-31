@@ -8,7 +8,7 @@ class Create_Quotation_Excel:
         self.Type_Tester = (By.XPATH, "(//li[text()='Tester']/parent::*)[1]")
         self.Require_Vat = (By.XPATH, "//*[@id='quotationConfig']/parent::*")
         self.Note = (By.XPATH, "//*[@id='quotationNote']")
-        self.Upload_Excel = (By.XPATH, "//input[@id='excelFile']")
+        self.Upload_Excel = (By.ID, "excelFile")
         self.Import_by_Sku = (By.XPATH, "//div[@class='import-type']//label[text()='Import by sku']")
         self.Import_by_Barcode = (By.XPATH, "//div[@class='import-type']//label[text()='Import by barcode']")
         self.Btn_Validate = (By.XPATH, "//*[text()='Validate File']/parent::*")
@@ -22,19 +22,20 @@ class Create_Quotation_Excel:
     def click_Type_Tester(self):
         self.driver.find_element(*self.Type_Tester).click()
 
-    def input_Upload_Excel(self, UploadExcel):
-        self.driver.find_element(*self.Upload_Excel).send_keys(UploadExcel)
-
+    def input_Upload_Excel(self, Excel):
+        self.driver.find_element(*self.Upload_Excel).send_keys(Excel)
+    
     def click_Btn_Validate(self):
         self.driver.find_element(*self.Btn_Validate).click()
 
     def click_Btn_Save_Quotation(self):
         self.driver.find_element(*self.Btn_Save_Quotation).click()
-
+    
     def click_Btn_OK(self):
         self.driver.find_element(*self.Btn_OK).click()
 
     def click_Btn_Request(self):
         self.driver.find_element(*self.Btn_Request).click()
+    
 
 
