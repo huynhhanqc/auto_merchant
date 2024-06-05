@@ -21,3 +21,4 @@ def test_create_quotation():
     create_quotation.click_type_gift()
 
 
+
