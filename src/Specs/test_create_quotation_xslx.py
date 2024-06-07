@@ -1,5 +1,5 @@
 import time
-from src.Page_Merchant.loginMC_page import SignInPage
+from src.Page_Merchant.login_page import SignInPage
 from src.Page_Merchant.menu_page import Menu_MC
 from src.Page_Merchant.quotation_xslx_page import Create_Quotation_Excel
 from selenium import webdriver
