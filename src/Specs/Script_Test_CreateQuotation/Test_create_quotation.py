@@ -1,4 +1,5 @@
 from time import sleep
+import unittest
 from src.PAGE.Login_Page import LogInPage
 from src.PAGE.Menu_Page import Menu_MC
 from src.PAGE.CreateQuotation_Page.create_quotation_page import Create_Quotation
@@ -15,7 +16,6 @@ class TestCreateQuotationSigle(WebDriverSetup):
         sleep(1)
         menu_MC.click_create_quotation()
         sleep(1)
-        create_quotation.click_quotation_type()
         create_quotation.click_type_gift()
         create_quotation.click_select_store()
         create_quotation.click_multi_stores()
@@ -23,7 +23,7 @@ class TestCreateQuotationSigle(WebDriverSetup):
         create_quotation.click_zone_bd()
         create_quotation.click_btn_use_store()
         create_quotation.click_product_sku()
-        create_quotation.click_input_sku(100190112)
+        create_quotation.send_keys_sku(100190112)
         sleep(1)
         create_quotation.click_accept_sku()
         create_quotation.click_btn_save()
@@ -32,8 +32,7 @@ class TestCreateQuotationSigle(WebDriverSetup):
         sleep(1)
         create_quotation.click_btn_res_quest()
         driver.switch_to.alert.accept()
-        create_quotation.expect_text_status()
-        assert create_quotation.expect_text_status() == "Waiting For Confirm\nM"
+        create_quotation.assert_text_status() == "Waiting For Confirm\nM"
     
 
 
