@@ -105,3 +105,5 @@ class Tab_InFo(ActionElement):
 
     def assert_text_status_product_completed(self):
         return self.element_get_text(self.text_status_product_completed)
+    
+    

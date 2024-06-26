@@ -52,12 +52,8 @@ class TestCreateProductRoleVendor(WebDriverSetup, unittest.TestCase):
         sleep(1)
         tab_document.accept_alert()
         sleep(2)
-        if tab_info.assert_text_status_product_success() == "Waiting Approve":
-            driver.save_screenshot("src\\ScreenShort\\")
-            assert True
-        else:
-            assert False
-           
+        assert tab_info.assert_text_status_product_success() == "Waiting Approve"
+        
 
 
 

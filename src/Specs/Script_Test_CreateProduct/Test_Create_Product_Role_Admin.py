@@ -65,7 +65,9 @@ class TestCreateProductRoleAdmin(WebDriverSetup, unittest.TestCase):
             assert True
             driver.save_screenshot("src\\ScreenShort\\image.png")
         else:
+            driver.save_screenshot("src\\ScreenShort\\image.png")
             assert False
+            
     
 
 

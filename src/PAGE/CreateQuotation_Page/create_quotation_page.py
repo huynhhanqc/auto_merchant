@@ -17,16 +17,18 @@ class Create_Quotation(ActionElement):
     accept_sku = (By.XPATH, "//*[text()='100190112']")
     btn_save = (By.ID, "btnSaveQuotationDetail")
     pup_ok = (By.XPATH, "//*[text()='OK']")
-    btn_res_quest = (By.XPATH, "//div[@class='card-toolbar']//a[3]")
+    btn_res_quest = (By.XPATH, "//a[contains(text(),'Request to confirm')]")
     text_status = (By.XPATH, "//span[@class='position-relative badge badge-warning']")
 
     # Quotation All Store
     multi_stores = [By.XPATH, "//*[@role='option'and text()='MULTI STORES']"]
     zone_bd = (By.XPATH, "//*[text()=' Bình Dương ']")
+    check_box_all_stores = (By.XPATH, "//*[text()='Check All ']")
     btn_use_store = (By.XPATH, "//*[@id='btnUseStore']")
     btn_allocate = (By.XPATH, "//*[@onclick='openAllocateQtyModal(1)']")
     btn_close_allocate = (By.XPATH, "//button[text()='Close']")
     sales_allocation_by_order = (By.XPATH, "//input[@id='allocationMethod_2']")
+    text_mutil_store = (By.XPATH, "//*[text()='Multi Store']")
 
 
 
@@ -52,8 +54,9 @@ class Create_Quotation(ActionElement):
     def send_keys_note(self, note):
         self.element_send_keys(self.note, note)
 
-    def click_select_store(self):
+    def click_select_store_multi(self):
         self.element_click(self.store)
+        self.element_click(self.multi_stores)
 
     def click_product_sku(self):
         self.element_click(self.product_sku)
@@ -64,11 +67,11 @@ class Create_Quotation(ActionElement):
     def click_accept_sku(self):
         self.element_click(self.accept_sku)
 
-    def click_multi_stores(self):
-        self.element_click(self.multi_stores)
-
     def click_zone_bd(self):
         self.element_click(self.zone_bd)
+
+    def click_check_box_all_stores(self):
+        self.element_click(self.check_box_all_stores)
 
     def click_btn_use_store(self):
         self.element_click(self.btn_use_store)
@@ -93,6 +96,9 @@ class Create_Quotation(ActionElement):
 
     def assert_text_status(self):
         return self.element_get_text(self.text_status)
+    
+    def assert_text_mutil_store(self):
+        return self.element_get_text(self.text_mutil_store)
 
     
 

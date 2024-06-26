@@ -12,7 +12,7 @@ class ActionElement:
         ).send_keys(text)
 
     def element_click(self, locator):
-        WebDriverWait(self.driver, 20).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(locator)
         ).click()
 

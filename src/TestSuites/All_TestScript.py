@@ -13,5 +13,6 @@ TC4=unittest.TestLoader().loadTestsFromTestCase(TestCreateQuotationExcel)
 
 createproductTestCase=unittest.TestSuite([TC1, TC2]) 
 quotatitonTestCase=unittest.TestSuite([TC3, TC4])
+alltests=unittest.TestSuite([TC1,TC2,TC3,TC4])
 
-unittest.TextTestRunner().run(createproductTestCase)
+unittest.TextTestRunner().run(alltests)
