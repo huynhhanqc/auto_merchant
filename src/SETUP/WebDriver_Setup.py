@@ -1,7 +1,6 @@
 import unittest
 from selenium import webdriver
 
-
 class WebDriverSetup(unittest.TestCase):
     def setUp(self):
         driver = webdriver.Chrome()
