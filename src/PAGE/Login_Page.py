@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from src.PAGE.CreateQuotation_Page.ActionElment import ActionElement
+from src.PAGE.Utils.Common import ActionElement
 
 class LogInPage(ActionElement):
     url = "https://test-merchant.hasaki.vn/login"
@@ -34,6 +34,8 @@ class LogInPage(ActionElement):
     
     def assert_text_login_failed(self):
         return self.element_get_text(self.text_login_vendor_failed)
+    
+    
     
     
     

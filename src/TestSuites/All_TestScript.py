@@ -1,8 +1,8 @@
-from src.SPECS.Script_Test_CreateProduct.Test_Create_Product_Role_Admin import TestCreateProductRoleAdmin
-from src.SPECS.Script_Test_CreateProduct.Test_Create_Product_Role_Vendor import TestCreateProductRoleVendor
+from src.SPECS.Script_CreateProduct.Test_Role_Admin import TestCreateProductRoleAdmin
+from src.SPECS.Script_CreateProduct.Test_Role_Vendor import TestCreateProductRoleVendor
 
-from src.SPECS.Script_Test_CreateQuotation.Test_create_quotation import TestCreateQuotationSigle
-from src.SPECS.Script_Test_CreateQuotation.Test_create_quotation_xslx import TestCreateQuotationExcel
+from src.SPECS.Script_CreateQuotation.Test_Muilti import TestCreateQuotationSigle
+from src.SPECS.Script_CreateQuotation.Test_Excel import TestCreateQuotationExcel
 import unittest
 
 TC1=unittest.TestLoader().loadTestsFromTestCase(TestCreateProductRoleAdmin)

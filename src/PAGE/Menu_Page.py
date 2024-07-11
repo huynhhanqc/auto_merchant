@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from src.PAGE.CreateQuotation_Page.ActionElment import ActionElement
+from src.PAGE.Utils.Common import ActionElement
 
 
 class Menu_MC(ActionElement):
