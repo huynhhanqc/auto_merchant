@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  pytest_runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pytest_container
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["pytest", "-v"]
