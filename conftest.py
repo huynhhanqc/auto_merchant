@@ -3,7 +3,6 @@ import pytest
 from datetime import datetime
 
 
-
 @pytest.fixture(scope="class")
 def setup_teardown(request):
     driver = webdriver.Chrome()
@@ -26,7 +25,7 @@ def chrome_driver_headless(request):
         options.add_argument('--no-sandbox')
         options.add_argument('--ignore-certificate-errors')
         driver = webdriver.Chrome(options=options)
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(5)
         request.cls.driver = driver
         yield driver 
         driver.quit()
@@ -68,3 +67,5 @@ def pytest_configure(config):
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
     report_path = f"reporthtml/report_{timestamp}.html"
     config.option.htmlpath = report_path
+
+
