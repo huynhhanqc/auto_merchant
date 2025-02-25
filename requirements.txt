@@ -9,3 +9,9 @@ selenium==4.28.1
 selenium-page-factory==2.7
 webdriver-manager==4.0.2
 six==1.17.0
+pytest==8.3.4
+pytest-html==4.1.1
+
+
+
+

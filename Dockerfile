@@ -1,13 +1,21 @@
-FROM python:3.13.2-bookworm
+FROM python:3.13.2-slim-bookworm
 
-RUN apt-get update && apt-get install -y \
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN useradd -m -r appuser && \
+    mkdir -p /app && \
+    chown appuser:appuser /app
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     curl \
     wget \
     xvfb \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+    chromium \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     wget -q "https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip" -O /tmp/chromedriver.zip && \
@@ -15,12 +23,12 @@ RUN CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_
     rm /tmp/chromedriver.zip && \
     chmod +x /usr/local/bin/chromedriver
 
-WORKDIR /app
+USER appuser
 
-COPY requirements.txt .
+COPY --chown=appuser:appuser requirements.txt .
 
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
-CMD ["pytest", "-v"]
+CMD ["python3", "-m", "pytest", "-v", "--html=reporthtml/report.html", "--self-contained-html"]

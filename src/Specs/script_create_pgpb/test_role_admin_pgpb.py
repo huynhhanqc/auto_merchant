@@ -2,7 +2,7 @@ import os
 from time import sleep
 from dotenv import load_dotenv
 from faker import Faker
-from src.pages.login_page import LogInPage
+from src.pages.page_login.login_page import LogInPage
 from src.pages.create_pgpb_page.add_pgpb_page import CreatePgPb
 from src.drivers.webdriver_factory import WebdriverFactory
 import logging
@@ -30,8 +30,8 @@ class TestCreatePgPbRoleAdmin (WebdriverFactory):
             sleep(1)
             add_pg.click_select_Brand()
             add_pg.click_select_Work_Type_Inline()
-            add_pg.send_keys_full_name(fake.name())
-            add_pg.send_keys_personal_Email(fake.email())
+            add_pg.send_keys_full_name()
+            add_pg.send_keys_personal_Email()
             add_pg.send_keys_id_Number()
             add_pg.send_keys_phone()
             add_pg.click_select_Location()
@@ -73,8 +73,8 @@ class TestCreatePgPbRoleAdmin (WebdriverFactory):
             sleep(1)
             add_pg.click_select_Brand()
             add_pg.click_select_Work_Type_Not_Line()
-            add_pg.send_keys_full_name(fake.name())
-            add_pg.send_keys_personal_Email(fake.email())
+            add_pg.send_keys_full_name()
+            add_pg.send_keys_personal_Email()
             add_pg.send_keys_id_Number()
             add_pg.send_keys_phone()
             add_pg.click_select_Location()

@@ -1,77 +1,26 @@
 from src.drivers.webdriver_factory import WebdriverFactory
-from src.pages.login_page import LogInPage
-from time import sleep
+from src.pages.page_login.login_page import LogInPage
 import pytest
-import logging
-from selenium.common.exceptions import TimeoutException 
 from src.utils.log_capture import log_capture 
 
 @pytest.mark.skip(reason="no reason")
+@pytest.mark.parametrize("username, password, expected_result", [
+    ("truonghan1506", "150699", True),
+    ("truonghan1506", "1506999", False),
+    ("nonexistentuser", "admin1", False)
+])
 
 class TestSignIn(WebdriverFactory):
-    def __init__(self):
-        self.driver = None
-
-    def test_login_role_vendor_success(self):
+    def test_login(self, username, password, expected_result):
         driver = self.driver
-        Sign_In = LogInPage(driver)
-        try:
-            Sign_In.login_role_vendor("truonghan1506", "150699")
-            sleep(1)
-            assert Sign_In.assert_text_home_title_vendor() == "Dashboard"
-        except TimeoutException as e:
-            logging.error(f"⏳ Lỗi timeout xảy ra: {str(e)}")
-            log_capture(driver, "Timeout_Error")
-            assert False
-        except Exception as e:
-            logging.error(f"🚨 Lỗi không mong muốn: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
-            assert False
+        sign_in = LogInPage(driver)
+        sign_in.go_to_url()
+        sign_in.input_username(username)
+        sign_in.input_password(password)
+        sign_in.click_btn_login()
+        if sign_in.get_text_home_title_vendor == "Welcome to Hasaki":
+            assert expected_result == True
+        else:
+            assert expected_result == False
 
-    def test_login_role_admin_success(self):
-        driver = self.driver
-        Sign_In = LogInPage(driver)
-        try:
-            Sign_In.login_role_admin("admin", "123123")
-            sleep(1)
-            assert Sign_In.assert_text_home_title_admin() == "Welcome to Hasaki"
-        except TimeoutException as e:
-            logging.error(f"⏳ Lỗi timeout xảy ra: {str(e)}")
-            log_capture(driver, "Timeout_Error")
-            assert False
-        except Exception as e:
-            logging.error(f"🚨 Lỗi không mong muốn: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
-            assert False
-
-    def test_login_role_vendor_failed(self):
-        driver = self.driver
-        Sign_In = LogInPage(driver)
-        try:
-            Sign_In.login_role_vendor("truonghan", "326")
-            sleep(1)
-            assert Sign_In.assert_text_login_failed() == "Tên người dùng hoặc mật khẩu không đúng !"
-        except TimeoutException as e:
-            logging.error(f"⏳ Lỗi timeout xảy ra: {str(e)}")
-            log_capture(driver, "Timeout_Error")
-            assert False
-        except Exception as e:
-            logging.error(f"🚨 Lỗi không mong muốn: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
-            assert False
-
-    def test_login_role_admin_failed(self):
-        driver = self.driver
-        Sign_In = LogInPage(driver)
-        try:
-            Sign_In.login_role_admin("admin", "123")
-            sleep(1)
-            assert Sign_In.assert_text_login_failed() == "Tên người dùng hoặc mật khẩu không đúng !"
-        except TimeoutException as e:
-            logging.error(f"⏳ Lỗi timeout xảy ra: {str(e)}")
-            log_capture(driver, "Timeout_Error")
-            assert False
-        except Exception as e:
-            logging.error(f"🚨 Lỗi không mong muốn: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
-            assert False
+            

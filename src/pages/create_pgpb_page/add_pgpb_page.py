@@ -1,5 +1,6 @@
 import logging
 import os
+from faker import Faker
 from selenium.webdriver.common.by import By
 from src.utils.common import ActionElement
 import random
@@ -108,15 +109,19 @@ class CreatePgPb (ActionElement):
             logging.error(f"An error occurred while clicking the 'select_Work_Type_Not_Line': {e}")
             raise
 
-    def send_keys_full_name(self, name):
+    def send_keys_full_name(self):
+        fake = Faker ()
         try:
+            name = fake.name()
             self.element_send_keys(self.full_name, name)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'full_name': {e}")
             raise
 
-    def send_keys_personal_Email(self, email):
+    def send_keys_personal_Email(self):
+        fake = Faker ()
         try:
+            email = fake.email()
             self.element_send_keys(self.personal_Email, email)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'personal_Email': {e}")

@@ -43,6 +43,15 @@ class ActionElement:
         except (TimeoutException, NoSuchElementException, ElementNotVisibleException) as e:
             logging.error(f"An error occurred while clicking the element: {e}")
             raise
+    
+    def find_element(self, locator):
+        try:
+            return WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(locator)
+            )
+        except (TimeoutException, NoSuchElementException, ElementNotVisibleException) as e:
+            logging.error(f"An error occurred while finding the element: {e}")
+            raise
 
     def element_get_text(self, locator):
         try:
@@ -124,3 +133,5 @@ class ActionElement:
         except (TimeoutException, NoSuchElementException, ElementNotVisibleException) as e:
             logging.error(f"An error occurred while sending keys to the element: {e}")
             raise
+
+    

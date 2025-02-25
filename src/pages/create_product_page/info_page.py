@@ -1,6 +1,7 @@
 import logging
 import random
 import string
+from faker import Faker
 from selenium.webdriver.common.by import By
 from src.utils.common import ActionElement
 
@@ -40,8 +41,7 @@ class TabInFo(ActionElement):
         super().__init__(driver)
         self.driver = driver
         
-
-    def send_keys_name_product(self, text_name, length=30):
+    def send_keys_name_product(self,text_name, length=30):
         try:
             if len(text_name) >= length:
                 name = text_name[:length]
@@ -102,51 +102,58 @@ class TabInFo(ActionElement):
             logging.error(f"An error occurred while sending keys to 'vendor_product_code': {e}")
             raise
 
-    def send_keys_vender_price(self, number):
+    def send_keys_vender_price(self, min_price=100000, max_price=500000):
         try:
-            self.element_send_keys(self.vender_price, number)
+            vendor_price = random.randint(min_price, max_price)
+            self.element_send_keys(self.vender_price, vendor_price)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'vender_price': {e}")
             raise
 
-    def send_keys_mar_price(self, number):
+    def send_keys_mar_price(self,min_price=100000, max_price=500000):
         try:
-            self.element_send_keys(self.mar_price, number)
+            mar_price = random.randint(min_price, max_price)
+            self.element_send_keys(self.mar_price, mar_price)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'mar_price': {e}")
             raise
 
-    def send_keys_hasaki_price(self, number):
+    def send_keys_hasaki_price(self,min_price=100000, max_price=500000):
         try:
-            self.element_send_keys(self.hasaki_price, number)
+            has_price = random.randint(min_price, max_price)
+            self.element_send_keys(self.hasaki_price, has_price)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'hasaki_price': {e}")
             raise
 
-    def send_keys_leng_th(self):
+    def send_keys_leng_th(self,min_length=1, max_length=100):
         try:
-            self.element_send_keys(self.leng_th, 1)
+            length = random.randint(min_length, max_length)
+            self.element_send_keys(self.leng_th, length)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'leng_th': {e}")
             raise
 
-    def send_keys_width(self):
+    def send_keys_width(self,min_length=1, max_length=100):
         try:
-            self.element_send_keys(self.width, 2)
+            width = random.randint(min_length, max_length)
+            self.element_send_keys(self.width, width)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'width': {e}")
             raise
 
-    def send_keys_height(self):
+    def send_keys_height(self,min_length=1, max_length=100):
         try:
-            self.element_send_keys(self.height, 3)
+            height = random.randint(min_length, max_length)
+            self.element_send_keys(self.height, height)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'height': {e}")
             raise
 
-    def send_keys_weight(self):
+    def send_keys_weight(self,min_length=1, max_length=100):
         try:
-            self.element_send_keys(self.weight, 4)
+            weight = random.randint(min_length, max_length)
+            self.element_send_keys(self.weight, weight)
         except Exception as e:
             logging.error(f"An error occurred while sending keys to 'weight': {e}")
             raise

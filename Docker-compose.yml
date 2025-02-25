@@ -1,12 +1,33 @@
 version: "3.8"
 
 services:
-  pytest_runner:
+  pytest-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: pytest_container
+    image: my-pytest-app:latest
+    container_name: my-pytest-app-container
     volumes:
       - .:/app
-    working_dir: /app
-    entrypoint: ["pytest", "-v"]
+      - reporthtml:/app/reporthtml
+    environment:
+      - DISPLAY=:99
+    command:
+      [
+        "python3",
+        "-m",
+        "pytest",
+        "-v",
+        "--html=reporthtml/report.html",
+        "--self-contained-html",
+      ]
+    tty: true
+    networks:
+      - pytest-network
+
+networks:
+  pytest-network:
+    driver: bridge
+
+volumes:
+  reporthtml:

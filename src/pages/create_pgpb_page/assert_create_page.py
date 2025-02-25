@@ -30,31 +30,52 @@ class AssertCreatePG (ActionElement):
     def get_staff_id(self):
         try:
             staff_id_value = self.element_get_attribute(self.text_staff_id, "value")
-            print(f"Giá trị của staff_id: {staff_id_value}")
+            if staff_id_value is not None:
+                print(f"Giá trị của staff_id: {staff_id_value}")
+            else:
+                print("Không tìm thấy giá trị của staff_id.")
         except Exception as e:
             logging.error(f"An error occurred: {e}")
 
     def get_id_Number(self):
         try:
             id_number_value = self.element_get_attribute(self.text_id_Number, "value")
-            logging.error(f"Giá trị của id_Number: {id_number_value}")
+            if id_number_value is not None:
+                print(f"Giá trị của id_Number: {id_number_value}")
+            else:
+                print("Không tìm thấy giá trị của id_Number.")
         except Exception as e:
             logging.error(f"An error occurred: {e}")
     
     def check_active_status(self):
         try:
-            assert self.is_text_present(self.text_status_Active), "Text 'Active' is not present on the UI."
+            active_text = self.is_text_present(self.text_status_Inactive)
+            if active_text == "Active":
+                assert True, "Text 'Active' is present on the UI."
+            else:
+                assert False, "Text 'Active' is not present on the UI."
         except AssertionError as e:
+            logging.error(f"Assertion error: {e}")
             self.get_id_Number()
     
     def check_waiting_approve_status(self):
         try:
-            assert self.is_text_present(self.text_status_Waiting_Approve), "Text 'Waiting for Approve' is not present on the UI."
+            waiting_text = self.is_text_present(self.text_status_Inactive)
+            if waiting_text == "Waiting for Approve":
+                assert True, "Text 'Waiting for Approve' is present on the UI."
+            else:
+                assert False, "Text 'Waiting for Approve' is not present on the UI."
         except AssertionError as e:
+            logging.error(f"Assertion error: {e}")
             self.get_id_Number()
 
     def check_inactive_status(self):
         try:
-            assert self.is_text_present(self.text_status_Inactive), "Text 'In-Active' is not present on the UI."
+            inactive_text = self.is_text_present(self.text_status_Inactive)
+            if inactive_text == "Inactive":
+                assert True, "Text 'Inactive' is present on the UI."
+            else:
+                assert False, "Text 'Inactive' is not present on the UI."
         except AssertionError as e:
+            logging.error(f"Assertion error: {e}")
             self.get_id_Number()

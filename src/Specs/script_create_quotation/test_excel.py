@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from src.pages.login_page import LogInPage
+from src.pages.page_login.login_page import LogInPage
 from src.pages.create_quotation_page.excel_page import Create_Quotation_Excel
 from src.drivers.webdriver_factory import WebdriverFactory
 import logging

@@ -4,7 +4,7 @@ test:
 
 test_single:
 	@echo "🚀 Running test single..."
-	@python3 -m pytest -k "TestCreateQuotationExcel" -s
+	@python3 -m pytest --tb=auto -k "TestCreateQuotationExcel" -s
 
 	
 

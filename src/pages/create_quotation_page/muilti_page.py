@@ -21,7 +21,8 @@ class QuotationMuilti(ActionElement):
     btn_res_quest = (By.XPATH, "//a[contains(text(),'Request to confirm')]")
     text_status = (By.XPATH, "//span[@class='position-relative badge badge-warning']")
     company = (By.XPATH, "//span[@class='select2-selection select2-selection--single form-select form-select-solid']")
-    company_accept = (By.XPATH, "//li[contains(text(),'Cty Hasaki Beauty & Clinic')]")
+    company2_accept = (By.XPATH, "//li[contains(text(),'Cty Hasaki Beauty & Clinic')]")
+    company4_accept = (By.XPATH, "//li[contains(text(),'Cty Mastige')]")
 
     # Quotation All Store
     multi_stores = [By.XPATH, "//*[@role='option'and text()='MULTI STORES']"]
@@ -58,10 +59,17 @@ class QuotationMuilti(ActionElement):
         except Exception as e:
             logging.error(f"An error occurred while clicking the 'type_tester': {e}")
 
-    def click_company(self):
+    def click_company_id2(self):
         try:
             self.element_click(self.company)
-            self.element_click(self.company_accept)
+            self.element_click(self.company2_accept)
+        except Exception as e:
+            logging.error(f"An error occurred while clicking the 'company': {e}")
+
+    def click_company_id4(self):
+        try:
+            self.element_click(self.company)
+            self.element_click(self.company4_accept)
         except Exception as e:
             logging.error(f"An error occurred while clicking the 'company': {e}")
 
@@ -94,6 +102,7 @@ class QuotationMuilti(ActionElement):
     def click_input_sku(self):
         try:
             self.element_click(self.product_sku)
+            sleep(1)
         except Exception as e:
             logging.error(f"An error occurred while clicking the 'product_sku': {e}")
 
@@ -173,13 +182,21 @@ class QuotationMuilti(ActionElement):
 
     def assert_text_status(self):
         try:
-            return self.element_get_text(self.text_status)
+            waiting_approve_text = self.element_get_text(self.text_status)
+            if waiting_approve_text == "Waiting For Confirm\nM":
+                return True
+            else:
+                return False
         except Exception as e:
             logging.error(f"An error occurred while getting the text of 'text_status': {e}")
 
     def assert_text_mutil_store(self):
         try:
-            return self.element_get_text(self.text_mutil_store)
+            count_store = self.element_get_text(self.text_mutil_store)
+            if count_store == "Multi Store(23 STORES)":
+                return True
+            else:
+                return False
         except Exception as e:
             logging.error(f"An error occurred while getting the text of 'text_mutil_store': {e}")
 

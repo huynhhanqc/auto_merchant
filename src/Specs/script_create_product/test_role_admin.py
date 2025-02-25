@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from faker import Faker
-from src.pages.login_page import LogInPage
+from src.pages.page_login.login_page import LogInPage
 from src.pages.menu_page import MenuMC
 from src.pages.create_product_page.info_page import TabInFo
 from src.pages.create_product_page.image_page import TabImage
@@ -34,9 +34,9 @@ class TestCreateProductRoleAdmin(WebdriverFactory):
             info.send_keys_bar_code()
             info.click_on_brand()
             info.send_keys_vendor_product_code()
-            info.send_keys_vender_price(fake.postcode())
-            info.send_keys_mar_price(fake.postcode())
-            info.send_keys_hasaki_price(fake.postcode())
+            info.send_keys_vender_price()
+            info.send_keys_mar_price()
+            info.send_keys_hasaki_price()
             info.send_keys_leng_th()
             info.send_keys_width()
             info.send_keys_height()
@@ -55,7 +55,6 @@ class TestCreateProductRoleAdmin(WebdriverFactory):
             document.click_save_next_document()
             document.click_Btn_request_approve()
             document.accept_alert()
-            log_capture(driver, "Request Approve Fail")
             assert info.assert_text_status_product_success() == "Waiting Approve"
             info.click_btn_approve_product()
             info.accept_alert()
