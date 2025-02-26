@@ -5,8 +5,6 @@ from selenium.webdriver.common.by import By
 from src.utils.common import ActionElement
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
-
 
 
 class VendorCerTiFiCate(ActionElement):
@@ -49,7 +47,7 @@ class VendorCerTiFiCate(ActionElement):
                 EC.presence_of_element_located((By.CSS_SELECTOR, ".dz-success")),
                 message=f"Tải lên file cho dropzone {dropzone_id} không thành công"
             )
-            print(f"Tải lên file {file_path} cho dropzone {dropzone_id} thành công")
+            #print(f"Tải lên file {file_path} cho dropzone {dropzone_id} thành công")
         except Exception as e:
             logging.error(f"Lỗi khi tải lên file cho dropzone {dropzone_id}: {e}")
             raise

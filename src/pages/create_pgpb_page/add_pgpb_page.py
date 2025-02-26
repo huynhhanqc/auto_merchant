@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 from faker import Faker
 from selenium.webdriver.common.by import By
 from src.utils.common import ActionElement
@@ -8,6 +9,7 @@ from time import sleep
 from selenium.common.exceptions import StaleElementReferenceException 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 
 class CreatePgPb (ActionElement): 
@@ -38,9 +40,14 @@ class CreatePgPb (ActionElement):
     btn_Yes_Request_to_Active = (By.XPATH, "//button[normalize-space()='Yes']")
     btn_Approve = (By.XPATH, "//button[normalize-space()='Approve']")
     btn_Accept_Approved = (By.XPATH, "//button[@type='button'][normalize-space()='Approve']")
-    avatar_preview_xpath = (By.XPATH, "//div[@id='avatar']//a[@id='file-fslightbox']")
-    fontside_preview_xpath = (By.XPATH, "//div[@id='front_side']//a[@id='file-fslightbox']")
-    backside_preview_xpath = (By.XPATH, "//div[@id='back_side']//a[@id='file-fslightbox']")
+    avatar_preview_xpath = (By.XPATH, "//div[@id='avatar']//div[@class='image-input-wrapper w-125px h-125px']")
+    fontside_preview_xpath = (By.XPATH, "//div[@id='front_side']//div[@class='image-input-wrapper w-125px h-125px']")
+    backside_preview_xpath = (By.XPATH, "//div[@id='back_side']//div[@class='image-input-wrapper w-125px h-125px']")
+    text_status_Inactive = (By.XPATH, "//*[@class='badge badge-secondary' and contains(text(), 'In-Active')]")
+    text_status_Waiting_Approve = (By.XPATH, "//*[@class='badge badge-warning' and contains(text(), 'Waiting for Approve')]")
+    text_status_Active = (By.XPATH, "//*[@class='badge badge-success' and contains(text(), 'Active')]")
+    text_staff_id = (By.ID, "staff_id")
+    text_id_Number = (By.ID, "cmnd")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -175,11 +182,19 @@ class CreatePgPb (ActionElement):
     def is_image_loaded(self, locator):
         try:
             element = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located(locator)
+                EC.visibility_of_element_located(locator)
             )
-            return element.is_displayed()
-        except Exception as e:
-            logging.error(f"An error occurred while checking the image: {e}")
+            style = element.get_attribute("style")
+            if not style:
+                return False
+            background_image_match = re.search(r'url\("([^"]+)"\)', style)
+            if background_image_match:
+                image_url = background_image_match.group(1)
+                logging.info(f"Found image URL in background-image: {image_url}")
+                return bool(image_url and "test-merchant.hasaki.vn" in image_url)  
+            return False
+        except (NoSuchElementException, TimeoutException) as e:
+            logging.error(f"Image not loaded for locator {locator}: {e}")
             return False
 
     def send_keys_image_Avatar(self):
@@ -190,11 +205,18 @@ class CreatePgPb (ActionElement):
                 selected_image = random.choice(image_files)
                 image_path = os.path.join(image_directory, selected_image)
                 self.element_send_keys_path(self.image_Avatar, image_path)
-                sleep(1)
-                if not self.is_image_loaded(self.avatar_preview_xpath):
-                    raise Exception("Avatar không được tải lên thành công.")
+                sleep(2)
+            if self.is_image_loaded(self.avatar_preview_xpath):
+                style = self.driver.find_element(*self.avatar_preview_xpath).get_attribute("style")
+                background_image_match = re.search(r'url\("([^"]+)"\)', style)
+                if background_image_match:
+                    image_url = background_image_match.group(1)
+                    logging.info(f"Verified avatar loaded with URL: {image_url}")
+                    assert "test-merchant.hasaki.vn" in image_url, "Avatar URL does not match expected domain"
+                logging.info("Avatar successfully uploaded and loaded.")
+                return True
             else:
-                print(f"Không có ảnh nào trong thư mục.")
+                raise Exception("Avatar upload failed: Image not loaded correctly.")
         except Exception as e:
             logging.error(f"Lỗi trong quá trình tải ảnh lên: {e}")
 
@@ -238,6 +260,50 @@ class CreatePgPb (ActionElement):
         except Exception as e:
             logging.error(f"An error occurred while clicking the 'btn_Approve': {e}")
             raise 
+
+    def is_text_present(self, locator):
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located(locator)
+            )
+            return element.is_displayed()
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            return False
+
+    def get_staff_id(self):
+        try:
+            text_id = self.element_get_attribute(self.text_staff_id, "value")
+            print(f"\nStaff ID : {text_id}")
+        except Exception as e:
+            logging.error(f"An error occurred while getting staff_id: {e}")
+            return None
+
+    def get_id_number(self):
+        try:
+            id_number = self.element_get_attribute(self.text_id_Number, "value") 
+            print(f"\nID Number : {id_number}")
+        except Exception as e:
+            logging.error(f"An error occurred while getting id_number: {e}")
+            return None
+        
+    def get_status_text(self, status_type):
+        locators = {
+            "inactive": self.text_status_Inactive,
+            "waiting_approve": self.text_status_Waiting_Approve,
+            "active": self.text_status_Active
+        }
+        locator = locators.get(status_type.lower(), None)
+        if locator:
+            try:
+                element = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located(locator)
+                )
+                return element.text
+            except (NoSuchElementException, TimeoutException) as e:
+                logging.error(f"Failed to get status text for {status_type}: {e}")
+                return None
+        return None
 
     
     
