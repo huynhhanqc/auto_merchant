@@ -3,6 +3,7 @@ import logging
 from time import sleep
 from selenium.webdriver.common.by import By
 from src.utils.common import ActionElement
+from src.utils.log_capture import log_capture
 
 
 class TabDocument(ActionElement):
@@ -47,6 +48,8 @@ class TabDocument(ActionElement):
 
     def click_Btn_request_approve(self):
         try:
-            self.element_click(self.Btn_request_approve)
+            if self.element_click(self.Btn_request_approve) == False:
+                log_capture("REQUEST FAIL")
+
         except Exception as e:
             logging.error(f"An error occurred while clicking the request approve: {e}")

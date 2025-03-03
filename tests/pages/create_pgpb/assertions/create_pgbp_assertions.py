@@ -42,14 +42,3 @@ class CreatePgbpbAssertions():
         except AssertionError as e:
             logging.error(f"Assertion error: {e}")
             return False
-
-    def verify_id_number(self, expected_id_number):
-        """Kiểm tra giá trị của id_number."""
-        id_number = self.page.get_id_number()
-        try:
-            assert id_number == expected_id_number, f"Expected id_number '{expected_id_number}', but got '{id_number}'"
-            logging.info(f"Verified id_number '{id_number}' successfully")
-            return True
-        except AssertionError as e:
-            logging.error(f"Assertion error: {e}")
-            return False

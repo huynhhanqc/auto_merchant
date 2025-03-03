@@ -10,15 +10,17 @@ def db():
     db_connector.disconnect()
 
 @pytest.mark.skip(reason="no reason")
-
 class TestDataBase(WebdriverFactory):
 
     def test_db_connection(self,db: DatabaseConnector):
         assert db.connection.is_connected() == True, "Không thể kết nối tới cơ sở dữ liệu"
 
-    def test_users_table(self,db: DatabaseConnector):
-        result = db.fetch_one("SELECT * FROM user WHERE username = 'truonghan1506'")
-        assert result is not None, "Không tìm thấy dữ liệu trong bảng users"
-        assert result[1] == "truonghan1506", "Username không đúng"
-        assert result[2] == "nguyen@example.com", "Email không đúng"
+    def test_work_schedule_table(self,db: DatabaseConnector):
+        query = "SELECT * FROM vendor_staff_schedule WHERE id = '803'"
+        result = db.fetch_all(query)
+        assert result is not None, "Không thể thực hiện truy vấn"
+        assert len(result) > 0, "Không có dữ liệu trong bảng vendor_staff_schedule"
+        print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{result}")
+    
+        
 

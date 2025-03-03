@@ -207,7 +207,7 @@ class CreatePgPb (ActionElement):
                 self.element_send_keys_path(self.image_Avatar, image_path)
                 sleep(2)
             if self.is_image_loaded(self.avatar_preview_xpath):
-                style = self.driver.find_element(*self.avatar_preview_xpath).get_attribute("style")
+                style = self.find_element(*self.avatar_preview_xpath).get_attribute("style")
                 background_image_match = re.search(r'url\("([^"]+)"\)', style)
                 if background_image_match:
                     image_url = background_image_match.group(1)
@@ -223,6 +223,7 @@ class CreatePgPb (ActionElement):
     def send_keys_image_front_side_cmnd(self):
         try:
             self.element_send_keys_path(self.image_front_side_cmnd, "/Users/mac/CccdPG/3_1733110493_bb8cef1271ce54dac7ea11a6eb8d0b92.jpeg")
+            sleep(1)
             if not self.is_image_loaded(self.fontside_preview_xpath):
                 raise Exception("Image ID Number Font Side không được tải lên thành công.")
         except Exception as e:
@@ -231,6 +232,7 @@ class CreatePgPb (ActionElement):
     def send_keys_image_back_side_cmnd(self):
         try:
             self.element_send_keys_path(self.image_back_side_cmnd, "/Users/mac/CccdPG/3_1733110493_bb8cef1271ce54dac7ea11a6eb8d0b92.jpeg")
+            sleep(1)
             if not self.is_image_loaded(self.backside_preview_xpath):
                 raise Exception("Image ID Number Font Side không được tải lên thành công.")
         except Exception as e:

@@ -7,7 +7,7 @@ from src.pages.create_pgpb_page.add_pgpb_page import CreatePgPb
 from src.drivers.webdriver_factory import WebdriverFactory
 import logging
 from selenium.common.exceptions import TimeoutException 
-from src.utils.log_capture import log_capture
+from src.utils.log_capture import log_capture, log_capture_full
 from tests.pages.create_pgpb.assertions.create_pgbp_assertions import CreatePgbpbAssertions
 
 load_dotenv()
@@ -48,11 +48,11 @@ class TestCreatePgPbRoleAdmin (WebdriverFactory):
             add_pg.get_staff_id()
         except TimeoutException as e:
             logging.error(f"⏳ The element is not visible or clickable during the timeout.: {str(e)}")
-            log_capture(driver, "Timeout_Error")
+            log_capture_full(driver, "Timeout_Error")
             assert False, "The element is not displayed or cannot be clicked."
         except Exception as e:
             logging.error(f"🚨 Unexpected error when testing.: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
+            log_capture_full(driver, "Unexpected_Error")
             assert False
         
     def test_create_pg_not_line_success(self):
@@ -84,9 +84,9 @@ class TestCreatePgPbRoleAdmin (WebdriverFactory):
             add_pg.get_id_number()
         except TimeoutException as e:
             logging.error(f"⏳ The element is not visible or clickable during the timeout.: {str(e)}")
-            log_capture(driver, "Timeout_Error")
+            log_capture_full(driver, "Timeout_Error")
             assert False, "The element is not displayed or cannot be clicked."
         except Exception as e:
             logging.error(f"🚨 Unexpected error when testing.: {str(e)}")
-            log_capture(driver, "Unexpected_Error")
+            log_capture_full(driver, "Unexpected_Error")
             assert False

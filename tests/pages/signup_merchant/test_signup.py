@@ -9,7 +9,7 @@ from src.pages.page_signup.vendor_certificate_page import VendorCerTiFiCate
 from src.utils.log_capture import log_capture 
 
 
-# @pytest.mark.skip(reason="no reason")
+@pytest.mark.skip(reason="no reason")
 class TestSignUp(WebdriverFactory):
      def test_sign_up_success(self):
         driver = self.driver

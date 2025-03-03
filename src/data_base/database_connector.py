@@ -40,16 +40,15 @@ class DatabaseConnector:
         else:
             print("Không có kết nối để đóng")
 
-    def execute_query(self, query, params=None):
+    def execute(self, query, params=None):
         if not self.connection or not self.connection.is_connected():
             raise Exception("Chưa kết nối tới cơ sở dữ liệu")
         try:
             self.cursor.execute(query, params or ())
             self.connection.commit()
-            return self.cursor.fetchall()
         except Error as e:
-            print(f"Lỗi truy vấn: {e}")
-            raise
+            self.connection.rollback()
+            raise Exception(f"Lỗi truy vấn: {e}")
 
     def fetch_one(self, query, params=None):
         if not self.connection or not self.connection.is_connected():
@@ -60,3 +59,13 @@ class DatabaseConnector:
         except Error as e:
             print(f"Lỗi truy vấn: {e}")
             raise
+    
+    def fetch_all(self, query, params=None):
+        if not self.connection or not self.connection.is_connected():
+            raise Exception("Chưa kết nối tới cơ sở dữ liệu")
+        try:
+            self.cursor.execute(query, params or ())
+            return self.cursor.fetchall()
+        except Error as e:
+            raise Exception(f"Lỗi truy vấn: {e}")
+    

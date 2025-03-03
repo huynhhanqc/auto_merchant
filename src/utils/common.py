@@ -1,7 +1,9 @@
+from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import logging
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotVisibleException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class ActionElement:
@@ -34,6 +36,24 @@ class ActionElement:
         except (TimeoutException, NoSuchElementException, ElementNotVisibleException) as e:
             logging.error(f"An error occurred while clicking the element: {e}")
             raise
+
+    def element_click_actions(self, locator):
+        """Nhấp vào một element, sử dụng WebDriverWait, ActionChains, và JavaScript nếu cần."""
+        max_attempts = 3
+        for attempt in range(max_attempts):
+            try:
+                element = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(locator)
+                )
+                ActionChains(self.driver).move_to_element(element).click().perform()
+                return element  
+            except (StaleElementReferenceException, ElementNotInteractableException, TimeoutException) as e:
+                if attempt < max_attempts - 1:
+                    logging.warning(f"Attempt {attempt + 1} failed to click element, retrying... Error: {e}")
+                    sleep(1)  
+                    continue
+                logging.error(f"Failed to click element {locator} after {max_attempts} attempts: {e}")
+                raise
 
     def element_clickable(self, locator):
         try:
